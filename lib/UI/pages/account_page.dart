@@ -24,10 +24,17 @@ class _AccountPageState extends State<AccountPage> {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
+        .get()
+        .then((value) {
+      name = value.data()['name'];
+      email = value.data()['email'];
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
         .snapshots()
         .listen((event) {
-      name = event.data()['name'];
-      email = event.data()['email'];
       profilePic = event.data()['profilePicture'];
       if (profilePic == "") {
         profilePic = null;
