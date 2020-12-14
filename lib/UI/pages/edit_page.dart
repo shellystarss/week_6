@@ -165,22 +165,46 @@ class _EditPageState extends State<EditPage> {
                           padding: EdgeInsets.all(15),
                           child: Text("Delete Product"),
                           onPressed: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            await ProductServices.deleteProduct(product);
-                            Fluttertoast.showToast(
-                                msg: "Delete product successful.",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                backgroundColor: Colors.green,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                            clearForm();
-                            setState(() {
-                              isLoading = false;
-                            });
-                            Navigator.of(context).pop();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Delete Confirmation"),
+                                    content: Text("Are you sure to delete " +
+                                        product.name +
+                                        "?"),
+                                    actions: [
+                                      FlatButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          await ProductServices.deleteProduct(
+                                              product);
+                                          Fluttertoast.showToast(
+                                              msg: "Delete product successful.",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          clearForm();
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Yes"),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("No"),
+                                      )
+                                    ],
+                                  );
+                                });
                           }),
                     ],
                   ),
