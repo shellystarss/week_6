@@ -193,6 +193,7 @@ class _EditPageState extends State<EditPage> {
                                             isLoading = false;
                                           });
                                           Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
                                         },
                                         child: Text("Yes"),
                                       ),
